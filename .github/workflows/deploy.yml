@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version to deploy (X.Y.Z)'
+        description: 'Version to deploy (vX.Y.Z)'
         required: true
         default: ''
       environment:
