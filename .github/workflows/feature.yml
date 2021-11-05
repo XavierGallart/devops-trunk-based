@@ -1,0 +1,40 @@
+name: Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version to deploy (X.Y.Z)'
+        required: true
+        default: ''
+      environment:
+        description: 'Environment to deploy version (DEV/QA/UA/PRO)'
+        required: true
+        default: ''
+
+jobs:
+  checkout:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      
+  pull-from-Quay:
+    needs: checkout
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Pull ${{ github.event.inputs.version }}!"
+      
+  deploy:
+    needs: pull-from-Quay
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Deploy to ${{ github.event.inputs.environment }}!"
+      
+  post:
+    needs: deploy
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: post
+        run: echo Running post actions
