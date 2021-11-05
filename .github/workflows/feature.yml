@@ -1,14 +1,10 @@
-name: Feature
+name: Feature to DEV
 
 on:
   workflow_dispatch:
     inputs:
       version:
-        description: 'Version to deploy (X.Y.Z)'
-        required: true
-        default: ''
-      environment:
-        description: 'Environment to deploy version (DEV/QA/UA/PRO)'
+        description: 'Feature branch to deploy (e.g. feature/TICKET-1234)'
         required: true
         default: ''
 
@@ -18,21 +14,22 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      
-  pull-from-Quay:
+
+  build:
     needs: checkout
     runs-on: ubuntu-latest
+
     steps:
-      - run: echo "Pull ${{ github.event.inputs.version }}!"
-      
-  deploy:
-    needs: pull-from-Quay
+      - run: echo "build"
+
+  deploy-to-DEV:
+    needs: build
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Deploy to ${{ github.event.inputs.environment }}!"
-      
+      - run: echo "Deploy to DEV"
+
   post:
-    needs: deploy
+    needs: deploy-to-DEV
     runs-on: ubuntu-latest
 
     steps:
