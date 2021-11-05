@@ -17,21 +17,7 @@ jobs:
   checkout:
     runs-on: ubuntu-latest
 
-    steps:
-      - uses: octokit/request-action@v2.x
-        id: get_latest_release
-        with:
-          route: GET /repos/:repository/releases/latest
-          repository: ${{ github.repository }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      
-      - run: echo "latest_release=$(${{steps.get_latest_release.outputs.data}} | jq '.[].id')" >> $GITHUB_ENV
-      - run: ${{ env.latest_release }}
-
-      #- run: echo "Latest release "${{ steps.get_latest_release.outputs.data | jq '.[].id' }}""
-      #- run: "echo latest release: ${{ steps.get_latest_release.outputs.data }}"
-      
+    steps:     
       - uses: actions/checkout@v2
         with:
           ref: refs/tags/${{ github.event.inputs.version }}
