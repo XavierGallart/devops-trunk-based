@@ -105,7 +105,7 @@ jobs:
         run: echo Deploy to UA    
         
   tests-UA:
-    needs: deploy-to-QA
+    needs: deploy-to-UA
     runs-on: ubuntu-latest
 
     steps:
