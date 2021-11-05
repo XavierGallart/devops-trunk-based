@@ -45,6 +45,11 @@ jobs:
           name: Release ${{ steps.tag_version.outputs.new_tag }}
           body: ${{ steps.tag_version.outputs.changelog }}
 
+      - uses: actions/upload-artifact@v2
+        with:
+          name: ${{ steps.tag_version.outputs.new_tag }}
+          path: target/*.jar
+          
   deploy-to-DEV:
     needs: build-release
     runs-on: ubuntu-latest
