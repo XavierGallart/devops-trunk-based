@@ -22,8 +22,8 @@ jobs:
         id: get_latest_release
         with:
           route: GET /repos/{owner}/{repo}/releases/latest
-          owner: octokit
-          repo: request-action
+          owner: XavierGallart
+          repo: devops-trunk-based
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
