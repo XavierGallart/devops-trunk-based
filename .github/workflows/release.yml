@@ -44,28 +44,99 @@ jobs:
           tag: ${{ steps.tag_version.outputs.new_tag }}
           name: Release ${{ steps.tag_version.outputs.new_tag }}
           body: ${{ steps.tag_version.outputs.changelog }}
-          
-  deploy-to-QA-UA:
+
+  deploy-to-DEV:
     needs: build-release
     runs-on: ubuntu-latest
-    environment: 'PRO'
+    environment: 'DEV'
 
     steps:
-      - name: deploy-to-QA-UA
-        run: echo Deploy to QA-UA    
+      - name: deploy-to-DEV
+        run: echo Deploy to DEV    
         
-  tests:
-    needs: deploy-to-QA-UA
+  tests-DEV:
+    needs: deploy-to-DEV
     runs-on: ubuntu-latest
 
     steps:
       - name: tests
         run: echo Running tests    
         
-  post:
-    needs: tests
+  post-DEV:
+    needs: tests-DEV
     runs-on: ubuntu-latest
 
     steps:
       - name: post
         run: echo Running post actions
+
+  deploy-to-QA:
+    needs: build-release
+    runs-on: ubuntu-latest
+    environment: 'QA'
+
+    steps:
+      - name: deploy-to-QA
+        run: echo Deploy to QA    
+        
+  tests-QA:
+    needs: deploy-to-QA
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: tests
+        run: echo Running tests    
+        
+  post-QA:
+    needs: tests-QA
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: post
+        run: echo Running post actions
+
+  deploy-to-UA:
+    needs: build-release
+    runs-on: ubuntu-latest
+    environment: 'UA'
+
+    steps:
+      - name: deploy-to-UA
+        run: echo Deploy to UA    
+        
+  tests-UA:
+    needs: deploy-to-QA
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: tests
+        run: echo Running tests    
+        
+  post-UA:
+    needs: tests-UA
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: post
+        run: echo Running post actions
+        
+  deploy-to-PRO:
+    needs: post-UA
+    runs-on: ubuntu-latest
+    environment: 'PRO'
+
+    steps:
+      - name: deploy-to-PRO
+        run: echo Deploy to PRO    
+        
+  tests-PRO:
+    needs: deploy-to-PRO
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: tests
+        run: echo Running tests    
+        
+  post-PRO:
+    needs: tests-PRO
+    runs-on: ubuntu-latest
