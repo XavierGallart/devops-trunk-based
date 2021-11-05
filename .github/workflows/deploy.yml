@@ -27,6 +27,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
       - run: echo "latest_release=$(${{steps.get_latest_release.outputs.data}} | jq '.[].id')" >> $GITHUB_ENV
+      - run: ${{ env.latest_release }}
 
       #- run: echo "Latest release "${{ steps.get_latest_release.outputs.data | jq '.[].id' }}""
       #- run: "echo latest release: ${{ steps.get_latest_release.outputs.data }}"
