@@ -140,3 +140,7 @@ jobs:
   post-PRO:
     needs: tests-PRO
     runs-on: ubuntu-latest
+    
+    steps:
+      - name: post
+        run: echo Running post actions
