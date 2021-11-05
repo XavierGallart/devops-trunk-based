@@ -32,6 +32,9 @@ jobs:
     needs: pull-from-Quay
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+        with:
+          ref: refs/tags/${{ github.event.inputs.version }}
       - run: echo "Deploy to ${{ github.event.inputs.environment }}!"
       
   post:
