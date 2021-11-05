@@ -71,7 +71,7 @@ jobs:
         run: echo Running post actions
 
   deploy-to-QA:
-    needs: build-release
+    needs: post-DEV
     runs-on: ubuntu-latest
     environment: 'QA'
 
@@ -96,7 +96,7 @@ jobs:
         run: echo Running post actions
 
   deploy-to-UA:
-    needs: build-release
+    needs: post-QA
     runs-on: ubuntu-latest
     environment: 'UA'
 
