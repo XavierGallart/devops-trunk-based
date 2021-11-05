@@ -18,6 +18,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+        with:
+          ref: refs/tags/${{ github.event.inputs.version }}
       
   pull-from-Quay:
     needs: checkout
@@ -26,6 +28,7 @@ jobs:
       - run: echo "Pull ${{ github.event.inputs.version }}!"
       
   deploy:
+    environment: ${{ github.event.inputs.environment }}
     needs: pull-from-Quay
     runs-on: ubuntu-latest
     steps:
