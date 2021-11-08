@@ -41,7 +41,7 @@ jobs:
 
       - name: Bump pom.xml
         run: |
-          mvn versions:set -DnewVersion=${{ steps.tag_version.outputs.new_tag }}
+          mvn versions:set -DnewVersion=$(${{ steps.tag_version.outputs.new_tag }} | egrep -o '[[:digit:]].[[:digit:]].[[:digit:]]' -o)
 
       - name: Commit files
         run: |
