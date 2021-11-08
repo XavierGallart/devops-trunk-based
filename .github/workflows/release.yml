@@ -42,10 +42,13 @@ jobs:
       - name: Bump pom.xml
         run: |
           echo "action_state=yellow" >> $GITHUB_ENV
-          echo "release_version2=$(${{ steps.tag_version.outputs.new_tag }}//[v]/)" >> $GITHUB_ENV
-          echo "${{ env.release_version1 }}"
-          echo "${{ env.action_state }}" # This will output 'yellow'
+                    
+      - name: Use the value
+        id: step_two
+        run: |
+          echo "${{ env.action_state }}"
           mvn versions:set -DnewVersion=${{ env.release_version }}
+          
 
       - name: Commit files
         run: |
