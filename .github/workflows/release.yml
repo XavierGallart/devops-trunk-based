@@ -41,21 +41,10 @@ jobs:
 
       - name: Bump pom.xml
         run: |
-          echo "action_state=v1.2.3" >> $GITHUB_ENV
-                    
-      - name: Use the value
-        id: step_two
-        run: |
-          echo "${{ env.action_state }}"
-          echo "{${{ env.action_state }}//[v]/}"
-          mvn versions:set -DnewVersion=${{ env.release_version }}
-          
-
-      - name: Commit files
-        run: |
+          mvn versions:set -DnewVersion=${{ steps.tag_version.outputs.new_vesion }}
           git config user.name "GitHub actions"
           git config user.email noreply@github.com
-          git commit -m "Update version to ${{ steps.tag_version.outputs.new_tag }} [skip ci]" -a
+          git commit -m "Update version to ${{ steps.tag_version.outputs.new_vesion }} [skip ci]" -a
           git push origin master
 
       - name: Build
