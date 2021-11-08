@@ -26,11 +26,7 @@ jobs:
           distribution: 'adopt'
           cache: maven
           
-      - name: Build
-        run: |
-          mvn package
-          echo "artifact_name=$(ls ${{github.workspace}}/target | grep jar)" >> $GITHUB_ENV
-          echo "release_version=$(ls ${{github.workspace}}/target | grep jar | egrep -o '[[:digit:]].[[:digit:]].[[:digit:]]' -o)" >> $GITHUB_ENV
+          
 
       - name: Bump version and push tag
         id: tag_version
@@ -44,6 +40,23 @@ jobs:
           tag: ${{ steps.tag_version.outputs.new_tag }}
           name: Release ${{ steps.tag_version.outputs.new_tag }}
           body: ${{ steps.tag_version.outputs.changelog }}
+
+      - name: Bump pom.xml
+        run: |
+          mvn versions:set -DnewVersion=0.0.1
+
+      - name: Commit files
+        run: |
+          git config user.name "GitHub actions"
+          git config user.email noreply@github.com
+          git commit -m "Update version in pom.xml [skip ci]" -a
+          git push origin master
+
+      - name: Build
+        run: |
+          mvn package
+          echo "artifact_name=$(ls ${{github.workspace}}/target | grep jar)" >> $GITHUB_ENV
+          echo "release_version=$(ls ${{github.workspace}}/target | grep jar | egrep -o '[[:digit:]].[[:digit:]].[[:digit:]]' -o)" >> $GITHUB_ENV
 
       - uses: actions/upload-artifact@v2
         with:
