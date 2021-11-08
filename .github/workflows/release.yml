@@ -47,6 +47,7 @@ jobs:
         id: step_two
         run: |
           echo "${{ env.action_state }}"
+          echo "{${{ env.action_state }}//[v]/}"
           mvn versions:set -DnewVersion=${{ env.release_version }}
           
 
