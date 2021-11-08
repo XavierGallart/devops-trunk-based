@@ -41,7 +41,7 @@ jobs:
 
       - name: Bump pom.xml
         run: |
-          echo "release_version1=${{ steps.tag_version.outputs.new_tag }}" >> $GITHUB_ENV
+          echo "release_version1=a" >> $GITHUB_ENV
           echo "release_version2=$(${{ steps.tag_version.outputs.new_tag }}//[v]/)" >> $GITHUB_ENV
           echo "${{ env.release_version1 }}"
           echo "${{ env.release_version2 }}"
