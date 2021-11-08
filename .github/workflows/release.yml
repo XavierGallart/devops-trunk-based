@@ -41,10 +41,10 @@ jobs:
 
       - name: Bump pom.xml
         run: |
-          mvn versions:set -DnewVersion=${{ steps.tag_version.outputs.new_tag }}
+          mvn versions:set -DnewVersion=${{ steps.tag_version.outputs.new_version }}
           git config user.name "GitHub actions"
           git config user.email noreply@github.com
-          git commit -m "Update version to ${{ steps.tag_version.outputs.new_tag }} [skip ci]" -a
+          git commit -m "Update version to ${{ steps.tag_version.outputs.new_version }} [skip ci]" -a
           git push origin master
 
       - name: Build
